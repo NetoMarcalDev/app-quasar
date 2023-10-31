@@ -12,6 +12,7 @@
           stack-label
           v-model="img"
           type="file"
+          accept="image/*"
         />
 
         <q-input
@@ -126,7 +127,6 @@ export default defineComponent({
           form.value.img_url = imgUrl
         }
         if (isUpdate.value) {
-          console.log(form.value)
           await update(table, form.value)
           notifySuccess('Produto editado com sucesso!')
         } else {
