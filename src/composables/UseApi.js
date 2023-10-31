@@ -68,12 +68,12 @@ export default function useApi () {
   }
 
   const getUrlPublic = async (fileName, storage) => {
-    const { publicURL, error } = supabase
+    const { data, error } = supabase
       .storage
       .from(storage)
       .getPublicUrl(fileName)
     if (error) throw error
-    return publicURL
+    return data.publicUrl
   }
 
   return {

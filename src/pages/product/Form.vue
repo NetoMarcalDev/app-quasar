@@ -122,11 +122,11 @@ export default defineComponent({
     const handleSubmit = async () => {
       try {
         if (img.value.length > 0) {
-          console.log(img.value[0])
           const imgUrl = await uploadImg(img.value[0], 'products')
           form.value.img_url = imgUrl
         }
         if (isUpdate.value) {
+          console.log(form.value)
           await update(table, form.value)
           notifySuccess('Produto editado com sucesso!')
         } else {
