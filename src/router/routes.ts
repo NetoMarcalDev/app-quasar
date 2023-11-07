@@ -10,7 +10,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'cadastro', name: 'cadastro', component: () => import('pages/Register.vue') },
       { path: 'email-confirmacao', name: 'email-confirmacao', component: () => import('pages/EmailConfirmation.vue') },
       { path: 'esqueci-minha-senha', name: 'esqueci-minha-senha', component: () => import('pages/ForgotPassword.vue') },
-      { path: 'alterar-senha', name: 'alterar-senha', component: () => import('pages/ResetPassword.vue') }
+      { path: 'alterar-senha', name: 'alterar-senha', component: () => import('pages/ResetPassword.vue') },
+      { path: 'produtos/:id', name: 'produtos', component: () => import('pages/product/Public.vue') }
     ]
   },
   {

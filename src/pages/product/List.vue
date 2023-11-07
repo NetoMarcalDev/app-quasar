@@ -10,6 +10,16 @@
       <span class="text-h6">
         Produto
       </span>
+      <q-btn
+        label="Listar"
+        dense
+        size="sm"
+        outline
+        class="q-ml-sm"
+        icon="mdi-store"
+        color="primary"
+        @click="handleGoToHistore"
+      />
       <q-space />
       <q-btn
         v-if="$q.platform.is.desktop"
@@ -61,6 +71,7 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
 import useApi from 'src/composables/UseApi'
+import useAuthUser from 'src/composables/UseAuthUser'
 import useNotify from 'src/composables/UseNotify'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
@@ -71,7 +82,8 @@ export default defineComponent({
   setup () {
     const products = ref([])
     const loading = ref(true)
-    const { list, remove } = useApi()
+    const { listPublic, remove } = useApi()
+    const { user } = useAuthUser()
     const { notifyError, notifySuccess } = useNotify()
     const router = useRouter()
     const table = 'product'
@@ -80,7 +92,7 @@ export default defineComponent({
     const handleListProducts = async () => {
       try {
         loading.value = true
-        products.value = await list(table)
+        products.value = await listPublic(table, user.value.id)
         loading.value = false
       } catch (error) {
         loading.value = false
@@ -109,6 +121,11 @@ export default defineComponent({
       }
     }
 
+    const handleGoToHistore = () => {
+      const idUser = user.value.id
+      router.push({ name: 'produtos', params: { id: idUser } })
+    }
+
     onMounted(() => {
       handleListProducts()
     })
@@ -118,7 +135,8 @@ export default defineComponent({
       products,
       loading,
       handleEdit,
-      handleRemoveProduct
+      handleRemoveProduct,
+      handleGoToHistore
     }
   }
 })
