@@ -53,7 +53,7 @@ export default defineComponent({
     }
   },
   setup (props, { emit }) {
-    const phone = '988744823'
+    const phone = '986277777'
     const msg = 'Olá, fiquei interessado no produto'
 
     const handleClose = () => {
@@ -61,7 +61,7 @@ export default defineComponent({
     }
 
     const handleSendWhatsApp = () => {
-      const link = encodeURI(`https://api.whatsapp.com/send?phone=55${phone}&text=${msg} - ${props.product.name} - ${formatCurrency(props.product.price)}`)
+      const link = encodeURI(`https://api.whatsapp.com/send?phone=5585${phone}&text=${msg} - ${props.product.name} - ${formatCurrency(props.product.price)}`)
       openURL(link)
     }
 
