@@ -54,15 +54,17 @@ import useNotify from 'src/composables/UseNotify'
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import useBrand from 'src/composables/UseBrand'
+import useAuthUser from 'src/composables/UseAuthUser'
 
 export default defineComponent({
   name: 'FormConfig',
   setup () {
     const table = 'config'
     const router = useRouter()
-    const { post, list, update } = useApi()
+    const { post, listPublic, update } = useApi()
     const { notifySuccess, notifyError } = useNotify()
     const { setBrand } = useBrand()
+    const { user } = useAuthUser()
 
     let config = {}
 
@@ -96,7 +98,7 @@ export default defineComponent({
 
     const handleGetConfig = async () => {
       try {
-        config = await list(table)
+        config = await listPublic(table, user.value.id)
         form.value = config[0]
       } catch (error) {
         notifyError(error.message)
