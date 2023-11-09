@@ -3,6 +3,19 @@
     <div class="row" v-if="brand.name">
       <div class="col-12 text-center text-h4">
         {{ brand.name }}
+        <q-select
+          outlined
+          v-model="categoryId"
+          label="Categoria"
+          :options="optionsCategories"
+          option-label="name"
+          option-value="id"
+          map-options
+          emit-value
+          clearable
+          dense
+          @update:model-value="handleListProducts(route.params.id)"
+        />
       </div>
     </div>
     <div class="q-pa-md">
@@ -66,6 +79,8 @@ export default defineComponent({
     const table = 'product'
     const showDialogDetails = ref(false)
     const productDetails = ref({})
+    const categoryId = ref('')
+    const optionsCategories = ref([])
 
     const { listPublic, brand } = useApi()
     const { notifyError } = useNotify()
@@ -74,7 +89,7 @@ export default defineComponent({
     const handleListProducts = async (userId) => {
       try {
         loading.value = true
-        products.value = await listPublic(table, userId)
+        products.value = categoryId.value ? await listPublic(table, userId, 'category_id', categoryId.value) : await listPublic(table, userId)
         loading.value = false
       } catch (error) {
         loading.value = false
@@ -87,8 +102,13 @@ export default defineComponent({
       showDialogDetails.value = true
     }
 
+    const handleListCategories = async (userId) => {
+      optionsCategories.value = await listPublic('category', userId)
+    }
+
     onMounted(() => {
       if (route.params.id) {
+        handleListCategories(route.params.id)
         handleListProducts(route.params.id)
       }
     })
@@ -102,7 +122,11 @@ export default defineComponent({
       showDialogDetails,
       productDetails,
       handleShowDetails,
-      brand
+      brand,
+      categoryId,
+      optionsCategories,
+      handleListProducts,
+      route
     }
   }
 })
