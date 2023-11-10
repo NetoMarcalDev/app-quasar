@@ -11,7 +11,7 @@ const columnsProduct = [
 
 const initialPagination = ref({
   page: 1,
-  rowPerPag: 5
+  rowsPerPage: 8
 })
 
 export {
