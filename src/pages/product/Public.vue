@@ -49,6 +49,14 @@
               </q-card-section>
             </q-card>
           </div>
+          <div class="col-12" v-if="props.rowIndex === 3 && brand.parallax_url">
+            <q-parallax :height="200" :speed="0.5">
+              <template v-slot:media>
+                <img :src="brand.parallax_url">
+              </template>
+              <h1 class="text-white">{{ brand.name }}</h1>
+            </q-parallax>
+          </div>
         </template>
       </q-table>
       <div class="row justify-center">

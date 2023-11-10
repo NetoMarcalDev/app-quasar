@@ -10,7 +10,8 @@ const brand = ref({
   primary_color: '',
   secondary_color: '',
   name: '',
-  phone: ''
+  phone: '',
+  parallax_url: ''
 })
 
 export default function useApi () {
