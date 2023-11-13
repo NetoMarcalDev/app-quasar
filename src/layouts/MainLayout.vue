@@ -36,7 +36,7 @@
         <q-item-label
           header
         >
-          Menu de acesso
+          Menu
         </q-item-label>
 
         <EssentialLink
