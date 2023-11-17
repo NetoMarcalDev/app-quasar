@@ -32,7 +32,14 @@
         <template v-slot:top>
           <span class="text-h6"> Produtos </span>
           <q-space />
-          <q-input outlined dense debounce="300" v-model="filter" placeholder="Consultar" class="q-mr-sm">
+          <q-input
+            outlined
+            dense
+            debounce="300"
+            v-model="filter"
+            placeholder="Consultar"
+            class="q-mr-sm"
+          >
             <template v-slot:append>
               <q-icon name="mdi-magnify" />
             </template>
@@ -40,23 +47,40 @@
         </template>
 
         <template v-slot:item="props">
-          <div class="q-pa-xs col-xs-12 col-sm-6 col-md-3">
-            <q-card flat bordered class="cursor-pointer" @click="handleShowDetails(props.row)">
-              <q-img :src="props.row.img_url" :ratio="4/3" />
-              <q-card-section class="text-center">
-                <div class="text-h6">{{ props.row.name }}</div>
-                <div class="text-subtitle2">{{ formatCurrency(props.row.price) }}</div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-12" v-if="props.rowIndex === 3 && brand.parallax_url">
-            <q-parallax :height="200" :speed="0.5">
-              <template v-slot:media>
-                <img :src="brand.parallax_url">
-              </template>
-              <h1 class="text-white">{{ brand.name }}</h1>
-            </q-parallax>
-          </div>
+          <transition-group
+            appear
+            enter-active-class="animated fadeInLeft"
+            leave-active-class="animated fadeOutRight"
+          >
+            <div class="q-pa-xs col-xs-12 col-sm-6 col-md-3" key="card">
+              <q-card
+                flat
+                bordered
+                class="cursor-pointer"
+                @click="handleShowDetails(props.row)"
+              >
+                <q-img :src="props.row.img_url" :ratio="4 / 3" />
+                <q-card-section class="text-center">
+                  <div class="text-h6">{{ props.row.name }}</div>
+                  <div class="text-subtitle2">
+                    {{ formatCurrency(props.row.price) }}
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div
+              class="col-12"
+              v-if="props.rowIndex === 3 && brand.parallax_url"
+              key="parallax"
+            >
+              <q-parallax :height="200" :speed="0.5">
+                <template v-slot:media>
+                  <img :src="brand.parallax_url" />
+                </template>
+                <h1 class="text-white">{{ brand.name }}</h1>
+              </q-parallax>
+            </div>
+          </transition-group>
         </template>
       </q-table>
       <div class="row justify-center">
@@ -107,7 +131,9 @@ export default defineComponent({
     const handleListProducts = async (userId) => {
       try {
         loading.value = true
-        products.value = categoryId.value ? await listPublic(table, userId, 'category_id', categoryId.value) : await listPublic(table, userId)
+        products.value = categoryId.value
+          ? await listPublic(table, userId, 'category_id', categoryId.value)
+          : await listPublic(table, userId)
         loading.value = false
       } catch (error) {
         loading.value = false
@@ -151,7 +177,9 @@ export default defineComponent({
       route,
       initialPagination,
       handleScrollToTop,
-      pagesNumber: computed(() => Math.ceil(products.value.length / initialPagination.value.rowsPerPage))
+      pagesNumber: computed(() =>
+        Math.ceil(products.value.length / initialPagination.value.rowsPerPage)
+      )
     }
   }
 })
